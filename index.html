@@ -184,8 +184,8 @@ section{padding:var(--sec) 0}
   border-radius:100px;padding:7px 15px;font-family:'IBM Plex Mono',monospace;font-size:clamp(.58rem,2.7vw,.65rem);
   letter-spacing:.1em;color:var(--strain);margin-bottom:20px}
 .gate-card h2{font-size:clamp(1.5rem,6.8vw,1.85rem);font-weight:700;margin-bottom:6px}
-.price{font-family:'IBM Plex Mono',monospace;font-size:clamp(2rem,9vw,2.4rem);margin:18px 0 2px}
-.price small{font-size:.78rem;color:var(--muted)}
+.price s{color:var(--muted);text-decoration-color:var(--danger);text-decoration-thickness:3px;font-size:.62em;margin-right:8px}
+.price-sub{font-family:'IBM Plex Mono',monospace;font-size:clamp(.68rem,3vw,.75rem);letter-spacing:.06em;color:var(--strain);margin:2px 0 22px}
 .gate-note{font-size:clamp(.83rem,3.6vw,.85rem);color:var(--muted);margin-bottom:24px}
 .gate-list{list-style:none;text-align:left;margin:0 auto 26px;max-width:390px}
 .gate-list li{padding:10px 0;border-bottom:1px solid var(--line);font-size:clamp(.86rem,3.7vw,.9rem);display:flex;gap:11px;align-items:baseline}
@@ -442,10 +442,13 @@ footer span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color
   <div class="wrap">
     <div class="gate">
       <div class="gate-card reveal">
-        <div class="intake">Current intake · closing this week</div>
+        <div class="intake">Founding rate · first 10 seats</div>
         <span class="mono">Membership</span>
         <h2>The gate is the filter.</h2>
-        <div class="price">₹999 <small>/ entry</small></div>
+        <div class="price">
+          <s>₹2499</s> ₹1499 <small>/ entry</small>
+        </div>
+        <p class="price-sub">Founding rate for the first 10 members. Goes to ₹2499 after.</p>
         <p class="gate-note">Not a paywall — a commitment device. A room where everybody paid to be there behaves completely differently from a free one. That's the entire product.</p>
         <ul class="gate-list">
           <li>All six rooms, immediately</li>
@@ -454,7 +457,7 @@ footer span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color
           <li>Supplement verification before you spend, not after</li>
           <li>Group buys and honest device pricing</li>
         </ul>
-        <a class="btn" style="width:100%" href="https://wa.me/910000000000">Request an invite</a>
+        <a class="btn" style="width:100%" href="https://wa.me/919936800801">Request an invite</a>
         <div class="gate-fine">Applications reviewed personally · 20 seats per intake<br>Peer community, not medical advice. Nothing here replaces your doctor.</div>
       </div>
     </div>
