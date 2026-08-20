@@ -184,7 +184,14 @@ section{padding:var(--sec) 0}
   border-radius:100px;padding:7px 15px;font-family:'IBM Plex Mono',monospace;font-size:clamp(.58rem,2.7vw,.65rem);
   letter-spacing:.1em;color:var(--strain);margin-bottom:20px}
 .gate-card h2{font-size:clamp(1.5rem,6.8vw,1.85rem);font-weight:700;margin-bottom:6px}
-.price s{color:var(--muted);text-decoration-color:var(--danger);text-decoration-thickness:3px;font-size:.62em;margin-right:8px}
+.price s{
+  color:var(--muted);
+  text-decoration-color:var(--danger);
+  text-decoration-thickness:3px;
+  font-size:.82em;          /* was .62 — this is the main fix */
+  margin-right:14px;
+  opacity:.7;
+}
 .price-sub{font-family:'IBM Plex Mono',monospace;font-size:clamp(.68rem,3vw,.75rem);letter-spacing:.06em;color:var(--strain);margin:2px 0 22px}
 .gate-note{font-size:clamp(.83rem,3.6vw,.85rem);color:var(--muted);margin-bottom:24px}
 .gate-list{list-style:none;text-align:left;margin:0 auto 26px;max-width:390px}
