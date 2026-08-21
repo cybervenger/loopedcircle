@@ -11,263 +11,222 @@
 <style>
 :root{
   --bg:#0B0E11;--panel:#11151A;--panel2:#151A20;
-  --line:rgba(235,240,245,.08);
+  --line:rgba(235,240,245,.09);
   --text:#EBF0F5;--muted:#8B95A1;
   --bio:#9BE84C;--strain:#FFB03A;--pulse:#4CC9E8;--danger:#FF5A5A;
   --pad:clamp(20px,5vw,24px);
-  --sec:clamp(64px,11vw,104px);
+  --sec:clamp(60px,10vw,100px);
   --safe-b:env(safe-area-inset-bottom,0px);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-weight:300;
-  font-size:clamp(15px,3.9vw,16px);line-height:1.72;overflow-x:hidden}
+  font-size:clamp(15px,3.9vw,16px);line-height:1.7;overflow-x:hidden}
 ::selection{background:var(--bio);color:var(--bg)}
 h1,h2,h3{font-family:'Chakra Petch',sans-serif;line-height:1.1;text-transform:uppercase;letter-spacing:.01em}
 .mono{font-family:'IBM Plex Mono',monospace;font-size:clamp(.6rem,2.7vw,.68rem);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 a{color:inherit;text-decoration:none}
-img,svg{display:block;max-width:100%}
 .wrap{max-width:1160px;margin:0 auto;padding:0 var(--pad)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--bio);outline-offset:3px}
 
-/* ============ NAV ============ */
+/* NAV */
 nav{position:fixed;inset:0 0 auto 0;z-index:90;background:rgba(11,14,17,.6);backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:background .35s,border-color .35s}
 nav.solid{background:rgba(11,14,17,.92);border-color:var(--line)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;padding:13px var(--pad);max-width:1160px;margin:0 auto}
-.logo{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.13em;display:flex;align-items:center;gap:10px;z-index:96}
-.logo::before{content:'';width:11px;height:11px;border-radius:50%;border:2.5px solid var(--bio);box-shadow:0 0 12px rgba(155,232,76,.6);flex-shrink:0}
-
-/* nav links hidden by default (mobile-first); shown on desktop */
+.logo{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.13em;display:flex;align-items:center;gap:10px}
+.logo::before{content:'';width:11px;height:11px;border-radius:50%;border:2.5px solid var(--bio);box-shadow:0 0 12px rgba(155,232,76,.6);animation:pulse-ring 2.4s infinite}
+@keyframes pulse-ring{50%{box-shadow:0 0 20px rgba(155,232,76,.9)}}
 .nav-links{display:none}
-
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Chakra Petch',sans-serif;font-weight:600;
   font-size:clamp(.78rem,3vw,.82rem);text-transform:uppercase;letter-spacing:.07em;padding:15px 28px;min-height:52px;
-  border-radius:8px;background:var(--bio);color:#0B0E11;border:1px solid var(--bio);cursor:pointer;
-  transition:transform .18s,box-shadow .18s}
+  border-radius:8px;background:var(--bio);color:#0B0E11;border:1px solid var(--bio);cursor:pointer;transition:transform .18s,box-shadow .18s}
 .btn:active{transform:translateY(1px)}
 .btn-sm{padding:10px 20px;min-height:0}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
-
-.burger{display:flex;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;z-index:96}
-.burger i{display:block;width:22px;height:1.5px;background:var(--text);position:relative;transition:background .3s}
+.burger{display:flex;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:0;cursor:pointer}
+.burger i{display:block;width:22px;height:1.5px;background:var(--text);position:relative}
 .burger i::before,.burger i::after{content:'';position:absolute;left:0;width:22px;height:1.5px;background:var(--text);transition:transform .35s}
 .burger i::before{top:-7px}.burger i::after{top:7px}
 body.menu-open .burger i{background:transparent}
 body.menu-open .burger i::before{transform:translateY(7px) rotate(45deg)}
 body.menu-open .burger i::after{transform:translateY(-7px) rotate(-45deg)}
-
 .sheet{position:fixed;inset:0;z-index:95;background:rgba(11,14,17,.97);backdrop-filter:blur(20px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
 body.menu-open .sheet{opacity:1;visibility:visible}
-.sheet a{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:1.55rem;text-transform:uppercase;letter-spacing:.04em;
-  padding:14px 24px;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+.sheet a{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:1.5rem;text-transform:uppercase;padding:14px 24px;
+  opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
 body.menu-open .sheet a{opacity:1;transform:none}
 body.menu-open .sheet a:nth-child(1){transition-delay:.06s}
 body.menu-open .sheet a:nth-child(2){transition-delay:.12s}
 body.menu-open .sheet a:nth-child(3){transition-delay:.18s}
-body.menu-open .sheet a:nth-child(4){transition-delay:.24s;color:var(--bio)}
+body.menu-open .sheet a:nth-child(4){transition-delay:.24s}
+body.menu-open .sheet a:nth-child(5){transition-delay:.3s;color:var(--bio)}
 body.menu-open{overflow:hidden}
 
-/* ============ HERO (mobile-first, no canvas) ============ */
+/* HERO */
 .hero{position:relative;padding:calc(88px + 4vh) 0 var(--sec);overflow:hidden}
-.hero::after{content:'';position:absolute;left:50%;top:34%;width:min(120vw,760px);height:min(120vw,760px);
+.hero::after{content:'';position:absolute;left:50%;top:32%;width:min(130vw,820px);height:min(130vw,820px);
   transform:translate(-50%,-50%);pointer-events:none;z-index:0;
-  background:radial-gradient(closest-side,rgba(76,201,232,.14),rgba(155,232,76,.05) 46%,transparent 72%)}
-.hero-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+  background:radial-gradient(closest-side,rgba(76,201,232,.16),rgba(155,232,76,.06) 46%,transparent 72%);
+  animation:drift 8s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(-50%,-50%) scale(1.06)}}
+.hero-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px}
 .hero-eyebrow{color:var(--bio)}
-
-/* signature: recovery ring */
-.ring{width:clamp(190px,58vw,272px);aspect-ratio:1;position:relative;flex-shrink:0}
+.ring{width:clamp(180px,55vw,258px);aspect-ratio:1;position:relative;flex-shrink:0}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring .track{fill:none;stroke:rgba(235,240,245,.07);stroke-width:9}
-.ring .arc{fill:none;stroke:url(#rg);stroke-width:9;stroke-linecap:round;
-  stroke-dasharray:534;stroke-dashoffset:534;animation:draw 1.5s .25s cubic-bezier(.22,1,.36,1) forwards}
-@keyframes draw{to{stroke-dashoffset:80}}       /* 85% of 534 */
+.ring .arc{fill:none;stroke:url(#rg);stroke-width:9;stroke-linecap:round;stroke-dasharray:534;stroke-dashoffset:534;animation:draw 1.5s .25s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes draw{to{stroke-dashoffset:80}}
 .ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.ring-c b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(2.1rem,11vw,3rem);color:var(--bio);line-height:1}
-.ring-c span{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.ring-c em{font-style:normal;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);opacity:.7}
-
-.hero-title{font-size:clamp(2rem,9vw,3.4rem);font-weight:700;max-width:14ch}
+.ring-c b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(2rem,10vw,2.8rem);color:var(--bio);line-height:1}
+.ring-c span{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.hero-title{font-size:clamp(1.9rem,8.6vw,3.2rem);font-weight:700;max-width:15ch}
 .hero-title span{color:var(--bio);display:block}
-.hero-sub{color:var(--muted);max-width:52ch;font-size:clamp(.94rem,3.9vw,1.02rem)}
+.hero-sub{color:var(--muted);max-width:50ch;font-size:clamp(.92rem,3.8vw,1rem)}
 .hero-ctas{display:flex;flex-direction:column;gap:12px;width:100%;max-width:340px}
 .hero-ctas .btn{width:100%}
 .hero-seats{color:var(--strain);letter-spacing:.1em}
 
-/* ============ STATS STRIP (mobile-first 2-up) ============ */
-.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
-.strip-in{display:grid;grid-template-columns:1fr 1fr;max-width:1160px;margin:0 auto}
-.stat{padding:clamp(20px,4vw,26px) clamp(16px,4vw,24px);border-left:1px solid var(--line);border-top:1px solid var(--line)}
-.stat:nth-child(odd){border-left:none}
-.stat:nth-child(-n+2){border-top:none}
-.stat b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(1.2rem,6vw,1.4rem);display:block}
-.stat span{font-size:clamp(.6rem,2.9vw,.68rem);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-
-/* ============ SECTIONS ============ */
-section{padding:var(--sec) 0}
-.eyebrow{color:var(--bio);margin-bottom:14px;display:block}
-.sec-h{font-size:clamp(1.7rem,6.8vw,2.7rem);font-weight:700;max-width:16ch}
-.sec-p{color:var(--muted);max-width:56ch;margin-top:16px}
-
-/* PROBLEM (mobile-first single col) */
-.problem{background:linear-gradient(180deg,rgba(255,90,90,.03),transparent 60%)}
-.problem-grid{display:grid;grid-template-columns:1fr;gap:clamp(34px,6vw,64px);align-items:center}
-.problem p.big{font-size:clamp(1.02rem,4.4vw,1.14rem);margin-top:18px}
-.decay{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,4vw,26px)}
-.decay svg{width:100%;height:auto}
-.decay-cap{font-size:.74rem;color:var(--muted);margin-top:10px}
-
-/* BOARD */
-.boardsec{border-top:1px solid var(--line)}
-.board{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,4vw,22px);max-width:520px;margin-top:36px}
-.board-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
-.live{display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.18em;color:var(--bio);flex-shrink:0}
+.live{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:var(--bio)}
 .live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--bio);animation:blink 1.6s infinite}
 @keyframes blink{50%{opacity:.25}}
-.row-m{display:grid;grid-template-columns:22px 1fr 56px 52px;gap:clamp(8px,2.4vw,12px);align-items:center;
-  padding:11px 2px;border-top:1px solid var(--line);font-size:clamp(.8rem,3.4vw,.85rem)}
+
+/* STATS */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.strip-in{display:grid;grid-template-columns:1fr 1fr;max-width:1160px;margin:0 auto}
+.stat{padding:clamp(18px,4vw,24px) clamp(16px,4vw,24px);border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.stat:nth-child(odd){border-left:none}
+.stat:nth-child(-n+2){border-top:none}
+.stat b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(1.15rem,5.6vw,1.35rem);display:block}
+.stat span{font-size:clamp(.58rem,2.8vw,.66rem);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+section{padding:var(--sec) 0}
+.eyebrow{color:var(--bio);margin-bottom:12px;display:block}
+.sec-h{font-size:clamp(1.6rem,6.4vw,2.5rem);font-weight:700;max-width:16ch}
+.sec-p{color:var(--muted);max-width:56ch;margin-top:14px}
+
+/* LEADERBOARD */
+.boardsec{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(76,201,232,.03),transparent 50%)}
+.board-head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.board{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,4vw,22px);overflow:hidden}
+.row-m{display:grid;grid-template-columns:22px 1fr 56px;gap:12px;align-items:center;padding:12px 2px;border-top:1px solid var(--line);font-size:clamp(.82rem,3.5vw,.88rem)}
 .row-m:first-of-type{border-top:none}
 .rank{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted)}
-.row-m .name{min-width:0}
-.row-m .name small{display:block;font-weight:300;font-size:.65rem;color:var(--muted)}
-.spark{height:24px;width:56px}
-.spark polyline{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.row-m .name small{display:block;font-weight:300;font-size:.64rem;color:var(--muted)}
 .score{font-family:'IBM Plex Mono',monospace;text-align:right;font-size:clamp(.85rem,3.7vw,.95rem)}
-.score.g{color:var(--bio)}.score.a{color:var(--strain)}.score.b{color:var(--pulse)}
-.board-foot{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:.68rem;color:var(--muted);
-  display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.score.g{color:var(--bio)}
+.lock-zone{position:relative;margin-top:2px}
+.lock-rows{filter:blur(7px);opacity:.5;pointer-events:none;user-select:none}
+.lock-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(180deg,transparent,rgba(17,21,26,.92) 30%);text-align:center;padding:20px}
+.lock-overlay .ico{font-size:1.6rem}
+.lock-overlay b{font-family:'Chakra Petch',sans-serif;font-size:.95rem;text-transform:uppercase}
+.lock-overlay span{font-size:.78rem;color:var(--muted);max-width:32ch}
+.board-illustrative{margin-top:14px;font-size:.68rem;color:var(--muted);text-align:center}
 
-/* ROOMS (mobile-first: badge + text, volume wraps under) */
-.rooms{border-top:1px solid var(--line)}
-.room-list{margin-top:clamp(34px,6vw,52px);border-top:1px solid var(--line)}
-.room{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;
-  padding:clamp(18px,4vw,24px) 2px;border-bottom:1px solid var(--line)}
-.room-badge{width:40px;height:40px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.44rem;
-  letter-spacing:.04em;color:var(--muted);text-align:center;line-height:1.15;padding:3px;flex-shrink:0;margin-top:2px}
-.room h3{font-size:clamp(.98rem,4.3vw,1.05rem);font-weight:600;margin-bottom:4px}
-.room p{color:var(--muted);font-size:clamp(.84rem,3.6vw,.88rem);max-width:60ch}
-.room .vol{grid-column:2;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted);margin-top:8px}
-.room .vol b{color:var(--text);font-weight:500;margin-right:5px}
-.rooms-note{margin-top:24px;font-size:.8rem;color:var(--muted)}
+/* SOLVED */
+.solved{border-top:1px solid var(--line)}
+.solve-card{margin-top:32px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(22px,5vw,30px);position:relative;overflow:hidden}
+.solve-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--bio)}
+.solve-tag{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--bio);background:rgba(155,232,76,.1);border:1px solid rgba(155,232,76,.28);border-radius:100px;padding:6px 14px;margin-bottom:16px}
+.solve-quote{font-size:clamp(1.05rem,4.4vw,1.25rem);font-family:'Chakra Petch',sans-serif;font-weight:600;line-height:1.35;margin-bottom:12px}
+.solve-who{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
 
-/* PROOF (touch-scroll on mobile, marquee on desktop) */
+/* TESTIMONIALS */
 .proof{border-top:1px solid var(--line);overflow:hidden}
-.proof-track{display:flex;gap:14px;margin-top:clamp(34px,6vw,54px);padding:2px var(--pad);
-  overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.proof-track{display:flex;gap:14px;margin-top:30px;padding:2px var(--pad);overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .proof-track::-webkit-scrollbar{display:none}
-.proof-track{scrollbar-width:none}
-.t-card{width:min(320px,80vw);background:var(--panel);border:1px solid var(--line);border-radius:14px;
-  padding:clamp(20px,4vw,24px);flex-shrink:0;scroll-snap-align:start}
-.t-card .metric{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--bio);display:block;margin-bottom:12px;letter-spacing:.05em}
+.t-card{width:min(310px,80vw);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,4vw,24px);flex-shrink:0;scroll-snap-align:start}
+.t-card .metric{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--bio);display:block;margin-bottom:12px;letter-spacing:.05em}
 .t-card p{font-size:clamp(.85rem,3.7vw,.89rem)}
 .t-card .who{margin-top:14px;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
 
-/* HOWTO (mobile-first single col) */
-.howto{border-top:1px solid var(--line);background:var(--panel)}
-.steps{display:grid;grid-template-columns:1fr;gap:14px;margin-top:clamp(34px,6vw,52px)}
-.step{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,4.5vw,26px) clamp(20px,4vw,22px)}
-.step .n{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--bio);letter-spacing:.14em;display:block;margin-bottom:12px}
-.step h3{font-size:clamp(.95rem,4.2vw,1rem);font-weight:600;margin-bottom:8px}
-.step p{color:var(--muted);font-size:clamp(.83rem,3.6vw,.86rem)}
-.step.warn{border-color:rgba(255,176,58,.3)}
-.step.warn .n{color:var(--strain)}
-.howto-note{margin-top:24px;font-size:.84rem;color:var(--muted);max-width:66ch}
+/* COMPETITIONS */
+.comp{border-top:1px solid var(--line);background:var(--panel)}
+.comp-card{margin-top:30px;background:var(--bg);border:1px solid rgba(255,176,58,.28);border-radius:16px;padding:clamp(24px,5vw,32px)}
+.comp-badge{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--strain);margin-bottom:16px}
+.comp-badge::before{content:'🏆'}
+.comp-title{font-size:clamp(1.15rem,4.8vw,1.4rem);margin-bottom:14px}
+.comp-winners{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:.76rem;background:rgba(255,176,58,.1);border:1px solid rgba(255,176,58,.3);
+  color:var(--strain);padding:8px 16px;border-radius:100px}
+.comp-note{margin-top:20px;font-size:.82rem;color:var(--muted)}
+
+/* ROOMS */
+.rooms{border-top:1px solid var(--line)}
+.room-list{margin-top:30px;border-top:1px solid var(--line)}
+.room{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;padding:clamp(18px,4vw,22px) 2px;border-bottom:1px solid var(--line)}
+.room-badge{width:40px;height:40px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.44rem;color:var(--muted);text-align:center;line-height:1.15;padding:3px;flex-shrink:0;margin-top:2px}
+.room h3{font-size:clamp(.96rem,4.2vw,1.02rem);font-weight:600;margin-bottom:4px}
+.room p{color:var(--muted);font-size:clamp(.82rem,3.5vw,.86rem)}
+.room .vol{grid-column:2;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted);margin-top:8px}
+.room .vol b{color:var(--text);font-weight:500;margin-right:5px}
 
 /* GATE */
 .gate{display:flex;justify-content:center}
-.gate-card{max-width:540px;width:100%;background:var(--panel);border:1px solid rgba(155,232,76,.28);border-radius:20px;
-  padding:clamp(28px,6vw,44px) clamp(22px,5vw,40px);text-align:center;box-shadow:0 0 60px rgba(155,232,76,.06)}
+.gate-card{max-width:520px;width:100%;background:var(--panel);border:1px solid rgba(155,232,76,.28);border-radius:20px;
+  padding:clamp(26px,6vw,40px) clamp(22px,5vw,36px);text-align:center;box-shadow:0 0 60px rgba(155,232,76,.06)}
 .intake{display:inline-flex;align-items:center;gap:9px;background:rgba(255,176,58,.09);border:1px solid rgba(255,176,58,.3);
-  border-radius:100px;padding:7px 15px;font-family:'IBM Plex Mono',monospace;font-size:clamp(.58rem,2.7vw,.65rem);
-  letter-spacing:.1em;color:var(--strain);margin-bottom:20px}
-.gate-card h2{font-size:clamp(1.5rem,6.8vw,1.85rem);font-weight:700;margin-bottom:6px}
-.price s{
-  color:var(--muted);
-  text-decoration-color:var(--danger);
-  text-decoration-thickness:3px;
-  font-size:.82em;          /* was .62 — this is the main fix */
-  margin-right:14px;
-  opacity:.7;
-}
-.price-sub{font-family:'IBM Plex Mono',monospace;font-size:clamp(.68rem,3vw,.75rem);letter-spacing:.06em;color:var(--strain);margin:2px 0 22px}
-.gate-note{font-size:clamp(.83rem,3.6vw,.85rem);color:var(--muted);margin-bottom:24px}
-.gate-list{list-style:none;text-align:left;margin:0 auto 26px;max-width:390px}
-.gate-list li{padding:10px 0;border-bottom:1px solid var(--line);font-size:clamp(.86rem,3.7vw,.9rem);display:flex;gap:11px;align-items:baseline}
-.gate-list li::before{content:'▸';color:var(--bio);font-size:.76rem;flex-shrink:0}
+  border-radius:100px;padding:7px 15px;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--strain);margin-bottom:20px}
+.gate-card h2{font-size:clamp(1.4rem,6.2vw,1.7rem);font-weight:700;margin-bottom:6px}
+.price-was{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--muted);
+  text-decoration:line-through;text-decoration-color:var(--danger);text-decoration-thickness:2px;margin-top:16px}
+.price{font-family:'IBM Plex Mono',monospace;font-size:clamp(2.1rem,9vw,2.6rem);margin:4px 0 2px;color:var(--bio)}
+.price small{font-size:.72rem;color:var(--muted)}
+.price-sub{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.05em;color:var(--strain);margin:2px 0 20px}
+.gate-list{list-style:none;text-align:left;margin:0 auto 24px;max-width:380px}
+.gate-list li{padding:10px 0;border-bottom:1px solid var(--line);font-size:clamp(.85rem,3.6vw,.88rem);display:flex;gap:11px;align-items:baseline}
+.gate-list li::before{content:'▸';color:var(--bio);font-size:.74rem;flex-shrink:0}
 .gate-fine{font-size:.7rem;color:var(--muted);margin-top:16px;line-height:1.7}
 
-footer{border-top:1px solid var(--line);padding:32px var(--pad) calc(32px + var(--safe-b));
-  display:flex;flex-direction:column;text-align:center;gap:8px;align-items:center}
-footer span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.disclaimer{max-width:1160px;margin:0 auto;padding:0 var(--pad) calc(96px + var(--safe-b));font-size:.7rem;color:var(--muted);opacity:.75}
+footer{border-top:1px solid var(--line);padding:32px var(--pad) calc(32px + var(--safe-b));display:flex;flex-direction:column;text-align:center;gap:8px;align-items:center}
+footer span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.disclaimer{max-width:1160px;margin:0 auto;padding:0 var(--pad) calc(90px + var(--safe-b));font-size:.68rem;color:var(--muted);opacity:.75}
 
-/* STICKY CTA — mobile only */
-.sticky{position:fixed;left:0;right:0;bottom:0;z-index:70;display:block;
-  padding:12px var(--pad) calc(12px + var(--safe-b));
-  background:rgba(11,14,17,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);
-  transform:translateY(115%);transition:transform .4s ease}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:70;display:block;padding:12px var(--pad) calc(12px + var(--safe-b));
+  background:rgba(11,14,17,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);transform:translateY(115%);transition:transform .4s ease}
 .sticky.show{transform:none}
 .sticky a{display:flex;width:100%}
 
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
 .reveal.in{opacity:1;transform:none}
 
-/* ============ TABLET ≥620px ============ */
 @media (min-width:620px){
   .strip-in{grid-template-columns:repeat(4,1fr)}
   .stat{border-top:none}
   .stat:nth-child(odd){border-left:1px solid var(--line)}
   .stat:first-child{border-left:none}
-  .steps{grid-template-columns:1fr 1fr}
-  .room{grid-template-columns:44px 1fr auto;gap:20px;align-items:center;transition:background .25s,padding-left .25s}
+  .room{grid-template-columns:44px 1fr auto;gap:20px;align-items:center}
   .room-badge{width:44px;height:44px;font-size:.48rem;margin-top:0}
-  .room .vol{grid-column:auto;text-align:right;margin-top:0;white-space:nowrap}
-  .room .vol b{display:block;margin-right:0}
+  .room .vol{grid-column:auto;text-align:right;margin-top:0}
 }
-
-/* ============ DESKTOP ≥900px ============ */
 @media (min-width:900px){
-  .nav-links{display:flex;gap:24px;align-items:center}
+  .nav-links{display:flex;gap:22px;align-items:center}
   .nav-links a{font-size:.8rem;color:var(--muted);transition:color .2s}
   .nav-links a:hover{color:var(--text)}
   .burger{display:none}
-
   .btn:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(155,232,76,.32)}
-  .btn-ghost:hover{border-color:var(--bio);color:var(--bio);box-shadow:none;transform:translateY(-2px)}
-
-  /* two-column hero: copy left, ring right */
-  .hero{padding:calc(112px + 2vh) 0 var(--sec)}
-  .hero::after{left:72%;top:52%}
-  .hero-in{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;text-align:left;gap:clamp(40px,6vw,72px)}
+  .hero{padding:calc(108px + 2vh) 0 var(--sec)}
+  .hero-in{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;text-align:left;gap:clamp(40px,6vw,70px)}
   .hero-eyebrow,.hero-title,.hero-sub,.hero-ctas,.hero-seats{grid-column:1}
   .hero-title{max-width:none}
   .hero-ctas{flex-direction:row;max-width:none}
   .hero-ctas .btn{width:auto}
-  .ring{grid-column:2;grid-row:1 / span 5;justify-self:center;width:clamp(280px,26vw,360px)}
-
-  .problem-grid{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:repeat(4,1fr)}
-  .room:hover{background:var(--panel);padding-left:14px}
-  .room:hover .room-badge{border-color:var(--bio);color:var(--bio)}
-
-  /* proof reverts to auto marquee on desktop */
-  .proof-track{overflow:visible;width:max-content;animation:mq 42s linear infinite}
+  .ring{grid-column:2;grid-row:1 / span 5;justify-self:center;width:clamp(260px,24vw,340px)}
+  .proof-track{overflow:visible;width:max-content;animation:mq 40s linear infinite}
   .proof:hover .proof-track{animation-play-state:paused}
   @keyframes mq{to{transform:translateX(-50%)}}
-
   footer{flex-direction:row;justify-content:space-between;text-align:left}
   .disclaimer{padding-bottom:28px}
   .sticky{display:none}
 }
-
-/* ============ REDUCED MOTION ============ */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none}
-  .ring .arc{stroke-dashoffset:80}   /* show final 85% without drawing */
+  .ring .arc{stroke-dashoffset:80}
   html{scroll-behavior:auto}
 }
 </style>
@@ -278,212 +237,187 @@ footer span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color
   <div class="nav-in">
     <a class="logo" href="#top">Looped Circle</a>
     <div class="nav-links">
-      <a href="#rooms">The rooms</a>
-      <a href="#proof">Results</a>
-      <a href="#howto">Entry</a>
+      <a href="#board">Leaderboard</a>
+      <a href="#rooms">Rooms</a>
+      <a href="#comp">Competitions</a>
       <a href="#join" class="btn btn-sm">Request an invite</a>
     </div>
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="sheet"><i></i></button>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i></button>
   </div>
 </nav>
 
 <div class="sheet" id="sheet">
-  <a href="#rooms">The rooms</a>
-  <a href="#proof">Results</a>
-  <a href="#howto">How entry works</a>
+  <a href="#board">Leaderboard</a>
+  <a href="#solved">Solved</a>
+  <a href="#rooms">Rooms</a>
+  <a href="#comp">Competitions</a>
   <a href="#join">Request an invite</a>
 </div>
 
-<!-- ============ HERO ============ -->
 <header class="hero" id="top">
   <div class="wrap hero-in">
-    <span class="mono hero-eyebrow">India's wearable-data circle</span>
-
+    <span class="mono hero-eyebrow">India's wearable-data circle · 230 members</span>
     <div class="ring" aria-hidden="true">
       <svg viewBox="0 0 200 200">
-        <defs>
-          <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#4CC9E8"/>
-            <stop offset="1" stop-color="#9BE84C"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4CC9E8"/><stop offset="1" stop-color="#9BE84C"/></linearGradient></defs>
         <circle class="track" cx="100" cy="100" r="85"/>
-        <circle class="arc"   cx="100" cy="100" r="85"/>
+        <circle class="arc" cx="100" cy="100" r="85"/>
       </svg>
-      <div class="ring-c">
-        <b>85<span style="font-size:.5em">%</span></b>
-        <span>Recovery</span>
-        <em>Circle avg · today</em>
-      </div>
+      <div class="ring-c"><b>85<span style="font-size:.5em">%</span></b><span>Circle avg today</span></div>
     </div>
-
     <h1 class="hero-title">Your tracker collects the data. <span>The Circle makes it count.</span></h1>
-    <p class="hero-sub">Six rooms of people who check HRV before their phone. Recovery reads, sleep protocols tested on Indian schedules, and a supplement room that kills the fakes before you buy them.</p>
+    <p class="hero-sub">230 members comparing recovery, sleep, and training every morning. Real leaderboards, real problems solved, real competitions — not another silent chat group.</p>
     <div class="hero-ctas">
       <a href="#join" class="btn">Request an invite</a>
-      <a href="#rooms" class="btn btn-ghost">See the rooms</a>
+      <a href="#board" class="btn btn-ghost">See the leaderboard</a>
     </div>
-    <p class="hero-seats mono">20 seats per intake · reviewed weekly</p>
+    <p class="hero-seats mono">First 50 members get the discounted rate</p>
   </div>
 </header>
 
 <div class="strip">
   <div class="strip-in">
-    <div class="stat"><b>240</b><span>Members</span></div>
+    <div class="stat"><b>230</b><span>Members</span></div>
     <div class="stat"><b>19,000+</b><span>Messages</span></div>
     <div class="stat"><b>6</b><span>Rooms</span></div>
-    <div class="stat"><b>11 mo</b><span>Of protocols</span></div>
+    <div class="stat"><b>12 mo</b><span>Of archive</span></div>
   </div>
 </div>
 
-<section class="problem">
-  <div class="wrap problem-grid">
-    <div>
-      <span class="mono eyebrow reveal">The problem</span>
-      <h2 class="sec-h reveal">The dashboard isn't the hard part. Week three is.</h2>
-      <p class="sec-p reveal">Over 17,000 elite trackers sell every month on Amazon India. Most follow the same arc — two weeks of obsessive checking, then the data becomes wallpaper.</p>
-      <p class="big reveal">Raw numbers, with nobody watching and nobody to ask, change nothing.</p>
-    </div>
-    <div class="decay reveal">
-      <span class="mono" style="display:block;margin-bottom:12px">Engagement after purchase</span>
-      <svg viewBox="0 0 320 150" role="img" aria-label="Chart: solo engagement collapses after week two; inside the loop it holds">
-        <line x1="0" y1="130" x2="320" y2="130" stroke="rgba(235,240,245,.12)"/>
-        <polyline fill="none" stroke="#FF5A5A" stroke-width="2" points="0,20 45,24 90,32 135,70 180,102 225,116 270,122 320,124"/>
-        <polyline fill="none" stroke="#9BE84C" stroke-width="2" stroke-dasharray="5 5" points="0,20 45,22 90,20 135,26 180,22 225,24 270,20 320,22"/>
-        <text x="6" y="146" fill="#8B95A1" font-size="9" font-family="IBM Plex Mono">Week 1</text>
-        <text x="282" y="146" fill="#8B95A1" font-size="9" font-family="IBM Plex Mono">Week 8</text>
-      </svg>
-      <div class="decay-cap"><span style="color:var(--danger)">— Alone</span> &nbsp;&nbsp; <span style="color:var(--bio)">- - Inside the loop</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="boardsec">
+<!-- LEADERBOARD -->
+<section class="boardsec" id="board">
   <div class="wrap">
-    <span class="mono eyebrow reveal">The daily read</span>
-    <h2 class="sec-h reveal">Numbers get seen here.</h2>
-    <p class="sec-p reveal">Recovery, strain, sleep consistency — posted every morning, read by people who know what they mean.</p>
+    <div class="board-head-row">
+      <div>
+        <span class="mono eyebrow reveal">The daily read</span>
+        <h2 class="sec-h reveal">Real leaderboards. Not vibes.</h2>
+        <p class="sec-p reveal">Recovery, RHR, sleep consistency — tracked and ranked every week inside the Circle.</p>
+      </div>
+      <span class="live reveal">Live</span>
+    </div>
+
     <div class="board reveal">
-      <div class="board-head">
-        <span class="mono" style="letter-spacing:.16em">Circle Recovery Board</span>
-        <span class="live">Live</span>
-      </div>
-      <div class="row-m"><span class="rank">01</span><span class="name">A. — Gurgaon<small>7-day recovery avg</small></span>
-        <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none"><polyline stroke="#9BE84C" points="0,20 12,16 24,18 36,10 48,12 60,6 74,4"/></svg><span class="score g" data-count="91">0%</span></div>
-      <div class="row-m"><span class="rank">02</span><span class="name">R. — Bandra<small>Sleep consistency</small></span>
-        <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none"><polyline stroke="#4CC9E8" points="0,18 12,14 24,15 36,12 48,9 60,10 74,6"/></svg><span class="score b" data-count="88">0%</span></div>
-      <div class="row-m"><span class="rank">03</span><span class="name">V. — Delhi<small>Week strain target</small></span>
-        <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none"><polyline stroke="#FFB03A" points="0,22 12,18 24,20 36,14 48,16 60,11 74,12"/></svg><span class="score a" data-count="14.6">0</span></div>
-      <div class="row-m"><span class="rank">04</span><span class="name">S. — Pune<small>Resting HR trend ↓</small></span>
-        <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none"><polyline stroke="#9BE84C" points="0,8 12,10 24,9 36,13 48,15 60,18 74,20"/></svg><span class="score g" data-count="54">0</span></div>
-      <div class="board-foot">
-        <span>Illustrative · data stays inside the Circle</span>
-        <span class="mono" style="font-size:.54rem">WHOOP · GARMIN · OURA</span>
+      <div class="row-m"><span class="rank">01</span><span class="name">A. — Gurgaon<small>7-day recovery avg</small></span><span class="score g">91%</span></div>
+      <div class="row-m"><span class="rank">02</span><span class="name">R. — Bandra<small>Sleep consistency</small></span><span class="score g">88%</span></div>
+      <div class="row-m"><span class="rank">03</span><span class="name">V. — Delhi<small>RHR trend ↓</small></span><span class="score g">54</span></div>
+
+      <div class="lock-zone">
+        <div class="lock-rows">
+          <div class="row-m"><span class="rank">04</span><span class="name">— — —<small>— — —</small></span><span class="score">—</span></div>
+          <div class="row-m"><span class="rank">05</span><span class="name">— — —<small>— — —</small></span><span class="score">—</span></div>
+          <div class="row-m"><span class="rank">06</span><span class="name">— — —<small>— — —</small></span><span class="score">—</span></div>
+        </div>
+        <div class="lock-overlay">
+          <span class="ico">🔒</span>
+          <b>230 members' real boards</b>
+          <span>Update daily. Unlocks on entry.</span>
+        </div>
       </div>
     </div>
+    <p class="board-illustrative reveal">Format shown is illustrative · full board unlocks for members</p>
   </div>
 </section>
 
-<section class="rooms" id="rooms">
+<!-- SOLVED -->
+<section class="solved" id="solved">
   <div class="wrap">
-    <span class="mono eyebrow reveal">Inside the Circle</span>
-    <h2 class="sec-h reveal">Six rooms. Each one does a job.</h2>
-    <p class="sec-p reveal">Not one chaotic group chat. Every room has a purpose, and every purpose has a year of archive behind it.</p>
-    <div class="room-list">
-      <div class="room reveal"><div class="room-badge">GENERAL</div>
-        <div><h3>General Chat</h3><p>The main floor. Device talk, buying decisions, arguments about what the data actually means.</p></div>
-        <div class="vol"><b>14,600</b>messages</div></div>
-      <div class="room reveal"><div class="room-badge">RECOV-<br>ERY</div>
-        <div><h3>Sleep &amp; Recovery</h3><p>Where protocols get tested. Sleep timing, HRV dips, late dinners, travel, AQI — run on Indian schedules.</p></div>
-        <div class="vol"><b>3,000</b>messages</div></div>
-      <div class="room reveal"><div class="room-badge">SUPPS</div>
-        <div><h3>Supplements</h3><p>The bullshit filter. Is this whey real, is that dose sane — answered by people who already made the mistake.</p></div>
-        <div class="vol"><b>1,600</b>messages</div></div>
-      <div class="room reveal"><div class="room-badge">TRAIN-<br>ING</div>
-        <div><h3>Training Logs</h3><p>Sessions posted, strain reviewed, PRs called out. Public logs are the cheapest accountability there is.</p></div>
-        <div class="vol"><b>Daily</b>logs</div></div>
-      <div class="room reveal"><div class="room-badge">INSIGHTS</div>
-        <div><h3>Insights &amp; Wins</h3><p>The signal channel. Breakthroughs and before/after data that make the rest of the room recalibrate.</p></div>
-        <div class="vol"><b>Curated</b>only</div></div>
-      <div class="room reveal"><div class="room-badge">SHOP</div>
-        <div><h3>Looped Shop</h3><p>Deals, group buys, honest device pricing. Members find better prices than any affiliate blog.</p></div>
-        <div class="vol"><b>Member</b>only</div></div>
+    <span class="mono eyebrow reveal">Problems, actually solved</span>
+    <h2 class="sec-h reveal">Not another silent chat group.</h2>
+    <p class="sec-p reveal">Real questions, answered by people who already dealt with it.</p>
+
+    <div class="solve-card reveal">
+      <span class="solve-tag">✓ Solved · Sleep &amp; Recovery</span>
+      <p class="solve-quote">"Finally got rid of all sleep debt — green score even sleeping 10+ hours."</p>
+      <div class="solve-who">— Raunit, member</div>
     </div>
-    <p class="rooms-note reveal">Plus Announcements — the only room that ever pings you.</p>
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
 <section class="proof" id="proof">
   <div class="wrap">
     <span class="mono eyebrow reveal">Member results</span>
     <h2 class="sec-h reveal">Outcomes, not vibes.</h2>
   </div>
   <div class="proof-track">
-    <div class="t-card"><span class="metric">RESTING HR &nbsp;62 → 54</span><p>"Eight beats in four months. The difference wasn't a new plan — it was posting recovery every morning and not wanting to explain a bad week."</p><div class="who">Member · Delhi NCR</div></div>
-    <div class="t-card"><span class="metric">SLEEP CONSISTENCY &nbsp;+31%</span><p>"The late-dinner experiment fixed what two years of sleep articles couldn't. Indian schedules need Indian protocols."</p><div class="who">Member · Mumbai</div></div>
-    <div class="t-card"><span class="metric">RECOVERY AVG &nbsp;58% → 74%</span><p>"I stopped training on red days because someone called out my overreaching pattern before my coach did."</p><div class="who">Member · Bengaluru</div></div>
-    <div class="t-card"><span class="metric">SAVED ₹4,200</span><p>"One click from buying counterfeit isolate. Posted it in Supplements — three people flagged the batch code in four minutes."</p><div class="who">Member · Hyderabad</div></div>
-    <div class="t-card"><span class="metric">RESTING HR &nbsp;62 → 54</span><p>"Eight beats in four months. The difference wasn't a new plan — it was posting recovery every morning and not wanting to explain a bad week."</p><div class="who">Member · Delhi NCR</div></div>
-    <div class="t-card"><span class="metric">SLEEP CONSISTENCY &nbsp;+31%</span><p>"The late-dinner experiment fixed what two years of sleep articles couldn't. Indian schedules need Indian protocols."</p><div class="who">Member · Mumbai</div></div>
-    <div class="t-card"><span class="metric">RECOVERY AVG &nbsp;58% → 74%</span><p>"I stopped training on red days because someone called out my overreaching pattern before my coach did."</p><div class="who">Member · Bengaluru</div></div>
-    <div class="t-card"><span class="metric">SAVED ₹4,200</span><p>"One click from buying counterfeit isolate. Posted it in Supplements — three people flagged the batch code in four minutes."</p><div class="who">Member · Hyderabad</div></div>
+    <div class="t-card"><span class="metric">WHOOP AGE &nbsp;−16.5 YRS</span><p>"Went from 20 years older to 3.5 years younger in 10 months."</p><div class="who">Rahul · Member</div></div>
+    <div class="t-card"><span class="metric">SLEEP DEBT &nbsp;CLEARED</span><p>"Finally got rid of all sleep debt — green score even sleeping 10+ hours."</p><div class="who">Raunit · Member</div></div>
+    <div class="t-card"><span class="metric">SAVED &nbsp;₹4,200</span><p>"One click from buying counterfeit isolate. The group flagged the batch code in four minutes."</p><div class="who">Member · Hyderabad</div></div>
+    <div class="t-card"><span class="metric">WHOOP AGE &nbsp;−16.5 YRS</span><p>"Went from 20 years older to 3.5 years younger in 10 months."</p><div class="who">Rahul · Member</div></div>
+    <div class="t-card"><span class="metric">SLEEP DEBT &nbsp;CLEARED</span><p>"Finally got rid of all sleep debt — green score even sleeping 10+ hours."</p><div class="who">Raunit · Member</div></div>
   </div>
 </section>
 
-<section class="howto" id="howto">
+<!-- COMPETITIONS -->
+<section class="comp" id="comp">
   <div class="wrap">
-    <span class="mono eyebrow reveal">How entry works</span>
-    <h2 class="sec-h reveal">We cap every intake at 20.</h2>
-    <p class="sec-p reveal">Not a growth hack — a moderation limit. Twenty is what we can onboard without the rooms getting noisy.</p>
-    <div class="steps">
-      <div class="step reveal"><span class="n">01</span><h3>Apply</h3><p>Two minutes. Your city, your device, what you're actually trying to fix. We read every one.</p></div>
-      <div class="step reveal"><span class="n">02</span><h3>Get your queue number</h3><p>You'll see your position in the current intake immediately. Reviews happen weekly.</p></div>
-      <div class="step reveal"><span class="n">03</span><h3>Approval on WhatsApp</h3><p>If you're in, we message you personally with your entry link. No bots, no funnel emails.</p></div>
-      <div class="step warn reveal"><span class="n">04</span><h3>24 hours to confirm</h3><p>Your seat is held for a day. Miss the window and it goes to the next person — you rejoin the queue for the next intake.</p></div>
+    <span class="mono eyebrow reveal">Monthly challenges</span>
+    <h2 class="sec-h reveal">Real competitions. Real prizes.</h2>
+    <div class="comp-card reveal">
+      <span class="comp-badge">Last month's challenge</span>
+      <h3 class="comp-title">Biggest RHR improvement — judged on submitted screenshots</h3>
+      <div class="comp-winners">
+        <span class="chip">Mohit</span>
+        <span class="chip">Abhi Mohanty</span>
+        <span class="chip">Sudham Jayanti</span>
+      </div>
+      <p class="comp-note">New challenge every month. Entry is free for members — just submit your data.</p>
     </div>
-    <p class="howto-note reveal">The 24-hour window exists because held seats block real applicants. If it lapses, no hard feelings — reapply, you just go back in line.</p>
   </div>
 </section>
 
+<!-- ROOMS -->
+<section class="rooms" id="rooms">
+  <div class="wrap">
+    <span class="mono eyebrow reveal">Inside the Circle</span>
+    <h2 class="sec-h reveal">Six rooms. Each one does a job.</h2>
+    <p class="sec-p reveal">Not one chaotic group chat. Every room has a purpose, and a year of archive behind it.</p>
+    <div class="room-list">
+      <div class="room reveal"><div class="room-badge">GENERAL</div><div><h3>General Chat</h3><p>Device talk, buying decisions, arguments about what the data means.</p></div><div class="vol"><b>14,600</b>messages</div></div>
+      <div class="room reveal"><div class="room-badge">RECOV-<br>ERY</div><div><h3>Sleep &amp; Recovery</h3><p>Protocols tested on Indian schedules — sleep timing, HRV dips, travel, AQI.</p></div><div class="vol"><b>3,000</b>messages</div></div>
+      <div class="room reveal"><div class="room-badge">SUPPS</div><div><h3>Supplements</h3><p>The bullshit filter. Is this whey real, is that dose sane.</p></div><div class="vol"><b>1,600</b>messages</div></div>
+      <div class="room reveal"><div class="room-badge">TRAIN-<br>ING</div><div><h3>Training Logs</h3><p>Sessions posted, strain reviewed, PRs called out.</p></div><div class="vol"><b>Daily</b>logs</div></div>
+      <div class="room reveal"><div class="room-badge">INSIGHTS</div><div><h3>Insights &amp; Wins</h3><p>Breakthroughs and before/after data.</p></div><div class="vol"><b>Curated</b>only</div></div>
+      <div class="room reveal"><div class="room-badge">SHOP</div><div><h3>Looped Shop</h3><p>Group buys, honest device pricing.</p></div><div class="vol"><b>Member</b>only</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
 <section id="join">
   <div class="wrap">
     <div class="gate">
       <div class="gate-card reveal">
-        <div class="intake">Founding rate · first 10 seats</div>
+        <div class="intake">First 50 members · discounted rate</div>
         <span class="mono">Membership</span>
         <h2>The gate is the filter.</h2>
-        <div class="price">
-          <s>₹2499</s> ₹1499 <small>/ entry</small>
-        </div>
-        <p class="price-sub">Founding rate for the first 10 members. Goes to ₹2499 after.</p>
-        <p class="gate-note">Not a paywall — a commitment device. A room where everybody paid to be there behaves completely differently from a free one. That's the entire product.</p>
+        <div class="price-was">Usually ₹2499</div>
+        <div class="price">₹1499 <small>/ entry</small></div>
+        <p class="price-sub">First 50 members only. Goes to ₹2499 after.</p>
         <ul class="gate-list">
           <li>All six rooms, immediately</li>
-          <li>11 months of archived protocols and experiments</li>
-          <li>Daily recovery and strain reads from 240 members</li>
+          <li>12 months of archived protocols and experiments</li>
+          <li>Real leaderboard access — recovery, RHR, sleep</li>
+          <li>Monthly competitions with real prizes</li>
           <li>Supplement verification before you spend, not after</li>
-          <li>Group buys and honest device pricing</li>
         </ul>
         <a class="btn" style="width:100%" href="https://wa.me/919936800801">Request an invite</a>
-        <div class="gate-fine">Applications reviewed personally · 20 seats per intake<br>Peer community, not medical advice. Nothing here replaces your doctor.</div>
+        <div class="gate-fine">Applications reviewed personally<br>Peer community, not medical advice. Nothing here replaces your doctor.</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="disclaimer">Member outcomes shown are illustrative of the kinds of results discussed inside the Circle and are shared with permission. Individual results vary. Looped Circle is a peer community for people who track their own health data — it does not provide medical, diagnostic, or prescription advice.</div>
+<div class="disclaimer">Member outcomes and quotes shown are real and shared with permission. Individual results vary. Looped Circle is a peer community for people who track their own health data — it does not provide medical, diagnostic, or prescription advice.</div>
 
 <footer>
   <span>Looped Circle · MMXXVI</span>
   <span>loopedcircle.in</span>
 </footer>
 
-<div class="sticky" id="sticky">
-  <a class="btn" href="#join">Request an invite</a>
-</div>
+<div class="sticky" id="sticky"><a class="btn" href="#join">Request an invite</a></div>
 
 <script>
-/* NAV solid-on-scroll + mobile sticky CTA */
 const nav=document.getElementById('nav'), sticky=document.getElementById('sticky');
 addEventListener('scroll',()=>{
   nav.classList.toggle('solid',scrollY>50);
@@ -491,37 +425,16 @@ addEventListener('scroll',()=>{
   sticky.classList.toggle('show', scrollY>innerHeight*0.85 && g.top>innerHeight*0.7);
 },{passive:true});
 
-/* Mobile menu */
 const burger=document.getElementById('burger'), sheet=document.getElementById('sheet');
 burger.addEventListener('click',()=>{
   const open=document.body.classList.toggle('menu-open');
   burger.setAttribute('aria-expanded',open);
 });
-sheet.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-  document.body.classList.remove('menu-open');
-  burger.setAttribute('aria-expanded','false');
-}));
-addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('menu-open');burger.setAttribute('aria-expanded','false')}});
+sheet.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
+addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('menu-open')});
 
-/* Scroll reveals */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-/* Board count-up */
-const reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const bIO=new IntersectionObserver(es=>es.forEach(e=>{
-  if(!e.isIntersecting)return; bIO.unobserve(e.target);
-  document.querySelectorAll('.score').forEach(el=>{
-    const tv=parseFloat(el.dataset.count), pct=el.textContent.includes('%');
-    if(reduceM){el.textContent=tv+(pct?'%':'');return}
-    const t0=performance.now(), d=1400;
-    const s=n=>{const p=Math.min((n-t0)/d,1), v=tv*(1-Math.pow(1-p,3));
-      el.textContent=(tv%1?v.toFixed(1):Math.round(v))+(pct?'%':'');
-      if(p<1)requestAnimationFrame(s)};
-    requestAnimationFrame(s);
-  });
-}),{threshold:.4});
-const bd=document.querySelector('.board'); if(bd) bIO.observe(bd);
 </script>
 </body>
 </html>
